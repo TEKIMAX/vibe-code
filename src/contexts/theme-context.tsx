@@ -27,7 +27,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme;
-    return savedTheme || 'system';
+    return savedTheme || 'light';
   });
 
   const applyTheme = (newTheme: Theme) => {
