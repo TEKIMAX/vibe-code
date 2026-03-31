@@ -61,13 +61,9 @@
 			"image": "./SandboxDockerfile",
             // "image": "registry.cloudflare.com/tekimax-vibe-code-userappsandboxservice:cfe197fc",
             // Altering max_instances value will have no effect. Please use the MAX_SANDBOX_INSTANCES var instead.
-			"max_instances": 5,
+			"max_instances": 25,
             // ATTENTION: Altering instance_type value will have no effect. Please use the SANDBOX_INSTANCE_TYPE var instead.
-            "instance_type": {
-                "vcpu": 2,
-                "memory_mib": 6144,
-                "disk_mb": 8192
-            },
+            "instance_type": "standard-1",
             "rollout_step_percentage": 100
 		}
 	],
@@ -143,6 +139,10 @@
         {
             "pattern": "vibe.tekimax.ai",
             "custom_domain": true
+        },
+        {
+            "pattern": "*.vibe.tekimax.ai/*",
+            "zone_name": "tekimax.ai"
         }
     ],
 	"vars": {
@@ -166,9 +166,10 @@
             "version": "1.0.0"
         },
         "CUSTOM_DOMAIN": "vibe.tekimax.ai",
-        "MAX_SANDBOX_INSTANCES": "5",
-        "SANDBOX_INSTANCE_TYPE": "standard-1"
+        "CUSTOM_PREVIEW_DOMAIN": "tekimax-vibe-code.christiank.workers.dev",
+        "MAX_SANDBOX_INSTANCES": "3",
+        "SANDBOX_INSTANCE_TYPE": "lite"
     },
-	"workers_dev": false,
+	"workers_dev": true,
 	"preview_urls": false
 }
