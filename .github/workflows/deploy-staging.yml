@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: https://staging-vibe.tekimax.ai
+      url: https://tekimax-vibe-code-staging.christiank.workers.dev
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -56,7 +56,10 @@ jobs:
         run: bun run build
 
       - name: Deploy to Staging
-        run: npx wrangler deploy
+        run: npx wrangler deploy --name tekimax-vibe-code-staging
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Post Preview URL
+        run: echo "### Staging Preview" >> $GITHUB_STEP_SUMMARY && echo "https://tekimax-vibe-code-staging.christiank.workers.dev" >> $GITHUB_STEP_SUMMARY
