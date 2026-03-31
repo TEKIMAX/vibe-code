@@ -20,14 +20,14 @@ interface LoginModalProps {
 	onClose: () => void;
 
 	// Original OAuth-only interface (for backward compatibility)
-	onLogin: (provider: 'google' | 'github') => void;
+	onLogin: (provider: 'google' | 'github' | 'workos') => void;
 
 	// New enhanced interfaces (optional)
 	onEmailLogin?: (credentials: {
 		email: string;
 		password: string;
 	}) => Promise<void>;
-	onOAuthLogin?: (provider: 'google' | 'github', redirectUrl?: string) => void;
+	onOAuthLogin?: (provider: 'google' | 'github' | 'workos', redirectUrl?: string) => void;
 	onRegister?: (data: {
 		email: string;
 		password: string;
@@ -76,6 +76,7 @@ export function LoginModal({
 	const hasRegistration = requiresEmailAuth && !!onRegister;
 	const showGitHub = authProviders?.github && hasOAuth;
 	const showGoogle = authProviders?.google && hasOAuth;
+	const showWorkOS = authProviders?.workos && hasOAuth;
 
 	const resetForm = () => {
 		setEmail('');
@@ -156,7 +157,7 @@ export function LoginModal({
 		}
 	};
 
-	const handleOAuthClick = (provider: 'google' | 'github') => {
+	const handleOAuthClick = (provider: 'google' | 'github' | 'workos') => {
 		// Use the new interface if available, otherwise fall back to original
 		if (onOAuthLogin) {
 			// Pass the current URL as redirect URL for context preservation
@@ -310,6 +311,29 @@ export function LoginModal({
 									</div>
 									<div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-gray-100 dark:via-gray-800 to-transparent group-hover:translate-x-full transition-transform duration-700" />
 								</motion.button>
+								)}
+
+								{/* WorkOS */}
+								{showWorkOS && (
+									<motion.button
+										initial={{ opacity: 0, y: 5 }}
+										animate={{ opacity: 1, y: 0 }}
+										transition={{ delay: 0.15 }}
+										type="button"
+										onClick={() => handleOAuthClick('workos')}
+										className="w-full relative group overflow-hidden rounded-lg border border-border bg-background hover:bg-accent/50 transition-all duration-300 py-3 px-4"
+									>
+										<div className="relative flex items-center justify-center gap-3">
+											<svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+												<rect width="24" height="24" rx="4" fill="#6363F1"/>
+												<path d="M7 8h10v2H7V8zm0 3h10v2H7v-2zm0 3h7v2H7v-2z" fill="white"/>
+											</svg>
+											<span className="font-medium">
+												Continue with WorkOS
+											</span>
+										</div>
+										<div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-gray-100 dark:via-gray-800 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+									</motion.button>
 								)}
 
 								{/* Divider (only if both OAuth and email are available) */}

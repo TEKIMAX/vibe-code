@@ -35,8 +35,9 @@ export class AuthController extends BaseController {
      * Check if OAuth providers are configured
      */
     static hasOAuthProviders(env: Env): boolean {
-        return (!!env.GOOGLE_CLIENT_ID && !!env.GOOGLE_CLIENT_SECRET) || 
-               (!!env.GITHUB_CLIENT_ID && !!env.GITHUB_CLIENT_SECRET);
+        return (!!env.GOOGLE_CLIENT_ID && !!env.GOOGLE_CLIENT_SECRET) ||
+               (!!env.GITHUB_CLIENT_ID && !!env.GITHUB_CLIENT_SECRET) ||
+               (!!env.WORKOS_CLIENT_ID && !!env.WORKOS_API_KEY);
     }
     
     /**
@@ -744,16 +745,17 @@ export class AuthController extends BaseController {
             const providers = {
                 google: !!env.GOOGLE_CLIENT_ID && !!env.GOOGLE_CLIENT_SECRET,
                 github: !!env.GITHUB_CLIENT_ID && !!env.GITHUB_CLIENT_SECRET,
+                workos: !!env.WORKOS_CLIENT_ID && !!env.WORKOS_API_KEY,
                 email: true
             };
-            
+
             // Include CSRF token with provider info
             const csrfToken = CsrfService.getOrGenerateToken(request, false);
-            
+
             const response = AuthController.createSuccessResponse({
                 providers,
-                hasOAuth: providers.google || providers.github,
-                requiresEmailAuth: !providers.google && !providers.github,
+                hasOAuth: providers.google || providers.github || providers.workos,
+                requiresEmailAuth: !providers.google && !providers.github && !providers.workos,
                 csrfToken,
                 csrfExpiresIn: Math.floor(CsrfService.defaults.tokenTTL / 1000)
             });

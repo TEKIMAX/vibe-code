@@ -33,6 +33,8 @@ declare namespace Cloudflare {
 		GOOGLE_CLIENT_ID: string;
 		GITHUB_CLIENT_ID: string;
 		GITHUB_CLIENT_SECRET: string;
+		WORKOS_CLIENT_ID: string;
+		WORKOS_API_KEY: string;
 		JWT_SECRET: string;
 		AI_PROXY_JWT_SECRET: string;
 		ENTROPY_KEY: string;
